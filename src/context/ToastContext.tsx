@@ -5,6 +5,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { CheckCircle2 } from 'lucide-react';
 
 type ToastContextValue = {
   show: (message: string) => void;
@@ -17,7 +18,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   const show = useCallback((msg: string) => {
     setMessage(msg);
-    window.setTimeout(() => setMessage(null), 2800);
+    window.setTimeout(() => setMessage(null), 3200);
   }, []);
 
   return (
@@ -25,10 +26,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       {message ? (
         <div
-          className="fixed bottom-6 right-6 z-[300] max-w-sm rounded-xl border border-white/[0.1] bg-[#0c0c14] px-4 py-3 text-sm text-slate-100 shadow-2xl shadow-black/40"
+          className="fixed bottom-6 right-6 z-[300] flex max-w-md items-start gap-3 rounded-2xl border border-white/[0.1] bg-[#0c0e14]/95 px-4 py-3 text-sm text-slate-100 shadow-2xl shadow-teal-500/10 ring-1 ring-teal-500/15 backdrop-blur-xl"
           role="status"
         >
-          {message}
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-teal-500/15 text-teal-300">
+            <CheckCircle2 className="h-4 w-4" aria-hidden />
+          </span>
+          <span className="pt-1 leading-snug">{message}</span>
         </div>
       ) : null}
     </ToastContext.Provider>

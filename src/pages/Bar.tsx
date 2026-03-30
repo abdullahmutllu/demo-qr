@@ -40,31 +40,31 @@ export default function Bar() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/15 text-violet-200">
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/30 to-fuchsia-600/15 text-violet-100 ring-1 ring-white/10">
           <Martini className="h-6 w-6" aria-hidden />
         </div>
         <div>
-          <h1 className="text-lg font-bold text-white">Bar — KDS</h1>
-          <p className="text-sm text-slate-500">{venue.name} — içecek istasyonu</p>
+          <h1 className="font-display text-xl font-bold text-white">Bar — KDS</h1>
+          <p className="text-sm text-slate-500">{venue.name} · içecek istasyonu</p>
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-2">
         {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/[0.1] bg-[#0c0c14]/40 p-8 text-center text-slate-500">
+          <div className="surface-panel-subtle rounded-3xl border border-dashed border-white/[0.1] p-10 text-center text-sm text-slate-500">
             Bar tarafında bekleyen kalem yok.
           </div>
         ) : (
           filtered.map((o) => (
             <article
               key={o.id}
-              className="rounded-2xl border border-white/[0.08] bg-[#0c0c14]/70 p-4"
+              className="surface-panel rounded-3xl p-5 transition hover:ring-1 hover:ring-violet-500/25"
             >
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
-                <span className="text-lg font-bold text-white">Masa {o.tableId}</span>
-                <span className="rounded-md bg-violet-500/15 px-2 py-0.5 text-[11px] text-violet-200">
+                <span className="font-display text-lg font-bold text-white">Masa {o.tableId}</span>
+                <span className="rounded-full bg-violet-500/20 px-2.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-wide text-violet-200">
                   {statusLabels[o.status]}
                 </span>
               </div>
@@ -84,7 +84,7 @@ export default function Bar() {
                 <button
                   type="button"
                   onClick={() => updateOrderStatus(o.id, nextStatus[o.status]!)}
-                  className="mt-4 w-full rounded-lg bg-violet-600 px-3 py-2 text-xs font-semibold text-white"
+                  className="font-display mt-4 w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 py-2.5 text-xs font-bold text-white shadow-lg shadow-violet-500/20 transition hover:brightness-110"
                 >
                   {statusLabels[nextStatus[o.status]!]}
                 </button>

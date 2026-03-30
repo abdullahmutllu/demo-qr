@@ -40,34 +40,34 @@ export default function Kitchen() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500/15 text-orange-200">
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/25 to-amber-600/15 text-orange-100 ring-1 ring-white/10">
           <ChefHat className="h-6 w-6" aria-hidden />
         </div>
         <div>
-          <h1 className="text-lg font-bold text-white">Mutfak — KDS</h1>
+          <h1 className="font-display text-xl font-bold text-white">Mutfak — KDS</h1>
           <p className="text-sm text-slate-500">
-            {venue.name} — sadece mutfak istasyonu ({filtered.length} aktif)
+            {venue.name} · <span className="font-medium text-slate-400">{filtered.length} aktif</span>
           </p>
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-2">
         {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/[0.1] bg-[#0c0c14]/40 p-8 text-center text-slate-500">
+          <div className="surface-panel-subtle rounded-3xl border border-dashed border-white/[0.1] p-10 text-center text-sm text-slate-500">
             Bekleyen mutfak siparişi yok. Müşteri QR ekranından sipariş gönderin.
           </div>
         ) : (
           filtered.map((o) => (
             <article
               key={o.id}
-              className="rounded-2xl border border-white/[0.08] bg-[#0c0c14]/70 p-4 shadow-lg shadow-black/20"
+              className="surface-panel rounded-3xl p-5 transition hover:ring-1 hover:ring-orange-500/20"
             >
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
                 <div>
-                  <span className="text-lg font-bold text-white">Masa {o.tableId}</span>
-                  <span className="ml-2 rounded-md bg-white/[0.06] px-2 py-0.5 text-[11px] text-slate-400">
+                  <span className="font-display text-lg font-bold text-white">Masa {o.tableId}</span>
+                  <span className="ml-2 rounded-full bg-orange-500/15 px-2.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-wide text-orange-200/95">
                     {statusLabels[o.status]}
                   </span>
                 </div>
@@ -87,7 +87,7 @@ export default function Kitchen() {
                       <span>
                         {l.qty}× {l.name}
                       </span>
-                      <span className="text-cyan-200/90">{formatTry(l.unitPrice * l.qty)}</span>
+                      <span className="font-medium text-teal-200/90">{formatTry(l.unitPrice * l.qty)}</span>
                     </li>
                   ))}
               </ul>
@@ -96,7 +96,7 @@ export default function Kitchen() {
                   <button
                     type="button"
                     onClick={() => updateOrderStatus(o.id, nextStatus[o.status]!)}
-                    className="rounded-lg bg-gradient-to-r from-orange-500 to-amber-600 px-3 py-2 text-xs font-semibold text-white"
+                    className="font-display rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-orange-500/20 transition hover:brightness-110"
                   >
                     → {statusLabels[nextStatus[o.status]!]}
                   </button>

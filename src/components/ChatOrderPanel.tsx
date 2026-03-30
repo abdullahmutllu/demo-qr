@@ -22,7 +22,7 @@ function msgId() {
 }
 
 const inputClass =
-  'min-w-0 flex-1 rounded-xl border border-white/[0.08] bg-[#0c0c14] px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30';
+  'min-w-0 flex-1 rounded-2xl border border-white/[0.1] bg-[#08090e]/90 px-4 py-3.5 text-sm text-white shadow-inner shadow-black/30 placeholder:text-slate-600 focus:border-teal-500/45 focus:outline-none focus:ring-2 focus:ring-teal-500/20';
 
 type Props = {
   venueId: string;
@@ -190,43 +190,44 @@ export default function ChatOrderPanel({
   const displayText = (m: ChatMessage) => (lang === 'tr' ? m.textTr : m.textEn);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 lg:flex-row">
-      <section className="flex min-h-[420px] flex-1 flex-col rounded-2xl border border-white/[0.08] bg-[#0a0a10]/80 shadow-xl shadow-black/20">
-        <div className="flex items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3">
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/15 text-cyan-300">
+    <div className="flex min-h-0 flex-1 flex-col gap-5 lg:flex-row lg:items-stretch">
+      <section className="surface-panel flex min-h-[440px] flex-1 flex-col overflow-hidden rounded-3xl">
+        <div className="relative flex items-center justify-between gap-3 border-b border-white/[0.06] bg-gradient-to-r from-teal-500/[0.06] via-transparent to-violet-500/[0.05] px-5 py-4">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" aria-hidden />
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500/25 to-violet-500/20 text-teal-100 ring-1 ring-white/12">
               <Bot className="h-5 w-5" aria-hidden />
             </div>
             <div>
-              <div className="text-sm font-semibold text-white">AI garson</div>
-              <div className="text-[11px] text-slate-500">
-                {hasProxy ? 'OpenAI proxy etkin' : 'Mock AI — anahtar kelime eşleşmesi'}
+              <div className="font-display text-sm font-bold text-white">Concierge</div>
+              <div className="text-[11px] font-medium text-slate-500">
+                {hasProxy ? 'OpenAI proxy · canlı' : 'Mock · anahtar kelime eşlemesi'}
               </div>
             </div>
           </div>
           <button
             type="button"
             onClick={() => onLangChange(lang === 'tr' ? 'en' : 'tr')}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.04] px-2.5 py-1.5 text-xs font-medium text-slate-200 hover:bg-white/[0.07]"
+            className="font-display inline-flex items-center gap-1.5 rounded-xl border border-white/[0.1] bg-black/30 px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-200 transition hover:border-teal-500/35 hover:bg-teal-500/10"
           >
             <Globe className="h-3.5 w-3.5" aria-hidden />
             {lang === 'tr' ? 'EN' : 'TR'}
           </button>
         </div>
 
-        <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+        <div className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
           {messages.map((m) => (
             <div
               key={m.id}
               className={[
-                'flex gap-2 rounded-xl border px-3 py-2.5 text-sm leading-relaxed',
+                'flex gap-3 rounded-2xl border px-4 py-3 text-sm leading-relaxed shadow-lg shadow-black/20',
                 m.role === 'user'
-                  ? 'ml-8 border-cyan-500/20 bg-cyan-500/5 text-slate-100'
-                  : 'mr-4 border-white/[0.06] bg-[#0c0c14]/80 text-slate-200',
+                  ? 'ml-6 border-teal-500/25 bg-gradient-to-br from-teal-500/12 to-cyan-500/5 text-slate-100'
+                  : 'mr-2 border-white/[0.07] bg-[#0c0e14]/85 text-slate-200',
               ].join(' ')}
             >
               {m.role === 'assistant' ? (
-                <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400/80" aria-hidden />
+                <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-teal-300/90" aria-hidden />
               ) : null}
               <div className="min-w-0 flex-1">
                 <p>{displayText(m)}</p>
@@ -237,7 +238,7 @@ export default function ChatOrderPanel({
                         key={`s-${item.id}`}
                         type="button"
                         onClick={() => addToCart(item)}
-                        className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-100 hover:bg-emerald-500/20"
+                        className="inline-flex items-center gap-1 rounded-xl border border-emerald-500/35 bg-emerald-500/[0.12] px-2.5 py-1.5 text-[11px] font-semibold text-emerald-100 transition hover:border-emerald-400/50 hover:bg-emerald-500/20"
                       >
                         <Plus className="h-3 w-3" aria-hidden />
                         {lang === 'tr' ? item.nameTr : item.nameEn}{' '}
@@ -249,7 +250,7 @@ export default function ChatOrderPanel({
                         key={`u-${item.id}`}
                         type="button"
                         onClick={() => addToCart(item)}
-                        className="inline-flex items-center gap-1 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-[11px] font-medium text-amber-100 hover:bg-amber-500/20"
+                        className="inline-flex items-center gap-1 rounded-xl border border-amber-400/35 bg-gradient-to-r from-amber-500/15 to-orange-500/10 px-2.5 py-1.5 text-[11px] font-semibold text-amber-100 transition hover:from-amber-500/25 hover:to-orange-500/15"
                       >
                         <Plus className="h-3 w-3" aria-hidden />
                         {lang === 'tr' ? 'Öneri: ' : 'Upsell: '}
@@ -262,15 +263,15 @@ export default function ChatOrderPanel({
             </div>
           ))}
           {loading ? (
-            <div className="flex items-center gap-2 text-xs text-slate-500">
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+            <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-black/20 px-3 py-2 text-xs font-medium text-slate-500">
+              <Loader2 className="h-4 w-4 animate-spin text-teal-400" aria-hidden />
               {lang === 'tr' ? 'Asistan yazıyor…' : 'Assistant is typing…'}
             </div>
           ) : null}
           <div ref={bottomRef} />
         </div>
 
-        <div className="border-t border-white/[0.06] p-3">
+        <div className="border-t border-white/[0.06] bg-[#08090e]/50 p-4">
           <div className="flex gap-2">
             <input
               className={inputClass}
@@ -293,7 +294,7 @@ export default function ChatOrderPanel({
               type="button"
               onClick={() => void sendMessage()}
               disabled={loading || !input.trim()}
-              className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 disabled:opacity-40"
+              className="font-display inline-flex shrink-0 items-center gap-2 rounded-2xl bg-gradient-to-r from-teal-500 via-cyan-500 to-violet-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-teal-500/25 transition hover:brightness-110 disabled:opacity-40"
             >
               <Send className="h-4 w-4" aria-hidden />
               {lang === 'tr' ? 'Gönder' : 'Send'}
@@ -302,17 +303,19 @@ export default function ChatOrderPanel({
         </div>
       </section>
 
-      <aside className="flex w-full shrink-0 flex-col rounded-2xl border border-white/[0.08] bg-[#0a0a10]/80 lg:w-[320px]">
-        <div className="flex items-center gap-2 border-b border-white/[0.06] px-4 py-3">
-          <ShoppingBag className="h-4 w-4 text-cyan-400" aria-hidden />
-          <span className="text-sm font-semibold text-white">
+      <aside className="surface-panel flex w-full shrink-0 flex-col overflow-hidden rounded-3xl lg:w-[340px]">
+        <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.02] px-5 py-4">
+          <ShoppingBag className="h-4 w-4 text-teal-300" aria-hidden />
+          <span className="font-display text-sm font-bold text-white">
             {lang === 'tr' ? 'Sepet' : 'Cart'}
           </span>
-          <span className="ml-auto text-xs text-slate-500">Masa {tableId}</span>
+          <span className="ml-auto rounded-full bg-white/[0.06] px-2.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            {lang === 'tr' ? 'Masa' : 'Tbl'} {tableId}
+          </span>
         </div>
-        <div className="flex-1 space-y-2 overflow-y-auto px-4 py-3">
+        <div className="flex-1 space-y-2 overflow-y-auto px-5 py-4">
           {cart.length === 0 ? (
-            <p className="text-sm text-slate-500">
+            <p className="text-sm leading-relaxed text-slate-500">
               {lang === 'tr'
                 ? 'Sohbetten + ile yemek veya içecek ekleyin.'
                 : 'Add items from chat suggestions with +.'}
@@ -321,45 +324,45 @@ export default function ChatOrderPanel({
             cart.map((line) => (
               <div
                 key={line.menuItemId}
-                className="flex items-center justify-between gap-2 rounded-lg border border-white/[0.06] bg-[#0c0c14]/60 px-3 py-2 text-sm"
+                className="flex items-center justify-between gap-2 rounded-2xl border border-white/[0.08] bg-black/25 px-4 py-3 text-sm shadow-inner shadow-black/20"
               >
-                <span className="min-w-0 truncate text-slate-200">
+                <span className="min-w-0 truncate font-medium text-slate-200">
                   {line.qty}× {line.name}
                 </span>
-                <span className="shrink-0 text-cyan-200/90">
+                <span className="shrink-0 font-display font-semibold text-teal-200/95">
                   {formatTry(line.unitPrice * line.qty)}
                 </span>
               </div>
             ))
           )}
         </div>
-        <div className="border-t border-white/[0.06] p-4">
-          <div className="mb-3 flex items-center justify-between text-sm">
-            <span className="text-slate-400">{lang === 'tr' ? 'Ara toplam' : 'Subtotal'}</span>
-            <span className="font-semibold text-white">{formatTry(cartTotal)}</span>
+        <div className="border-t border-white/[0.06] bg-gradient-to-t from-emerald-500/[0.04] to-transparent p-5">
+          <div className="mb-4 flex items-center justify-between text-sm">
+            <span className="font-medium text-slate-400">{lang === 'tr' ? 'Ara toplam' : 'Subtotal'}</span>
+            <span className="font-display text-lg font-bold text-white">{formatTry(cartTotal)}</span>
           </div>
           <button
             type="button"
             onClick={submitOrder}
             disabled={cart.length === 0}
-            className="w-full rounded-xl border border-emerald-500/40 bg-emerald-500/15 py-3 text-sm font-semibold text-emerald-100 hover:bg-emerald-500/25 disabled:opacity-40"
+            className="font-display w-full rounded-2xl border border-emerald-400/35 bg-gradient-to-r from-emerald-500/25 to-teal-600/20 py-3.5 text-sm font-bold text-emerald-50 shadow-lg shadow-emerald-500/10 transition hover:brightness-110 disabled:opacity-40"
           >
             {lang === 'tr' ? 'Siparişi gönder' : 'Submit order'}
           </button>
         </div>
       </aside>
 
-      <section className="rounded-2xl border border-dashed border-white/[0.1] bg-white/[0.02] p-4 lg:hidden">
-        <div className="text-xs font-medium text-slate-500">
+      <section className="rounded-3xl border border-dashed border-white/[0.12] bg-white/[0.03] p-4 lg:hidden">
+        <div className="font-display text-[11px] font-bold uppercase tracking-wider text-slate-500">
           {lang === 'tr' ? 'Hızlı menü' : 'Quick menu'}
         </div>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           {menuItems.slice(0, 6).map((item) => (
             <button
               key={item.id}
               type="button"
               onClick={() => addToCart(item)}
-              className="rounded-lg border border-white/[0.08] px-2 py-1 text-[11px] text-slate-300 hover:bg-white/[0.05]"
+              className="rounded-xl border border-white/[0.1] bg-black/20 px-2.5 py-1.5 text-[11px] font-medium text-slate-300 transition hover:border-teal-500/35 hover:text-white"
             >
               + {lang === 'tr' ? item.nameTr : item.nameEn}
             </button>

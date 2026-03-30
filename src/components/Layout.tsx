@@ -40,48 +40,64 @@ const groups: { title: string; items: NavItem[] }[] = [
 
 function navClass({ isActive }: { isActive: boolean }) {
   return [
-    'group flex items-center gap-3 rounded-r-lg border-l-2 py-2.5 pl-3 pr-3 text-sm font-medium transition-all',
+    'relative flex items-center gap-3 rounded-xl py-2.5 pl-3 pr-3 text-[13px] font-medium transition-all duration-200',
     isActive
-      ? 'border-cyan-400 bg-gradient-to-r from-cyan-500/15 to-transparent text-white shadow-[inset_0_0_24px_rgba(34,211,238,0.06)]'
-      : 'border-transparent text-slate-400 hover:border-slate-600 hover:bg-white/[0.04] hover:text-slate-200',
+      ? 'bg-white/[0.08] font-semibold text-white shadow-[inset_0_0_0_1px_rgba(45,212,191,0.25),0_12px_28px_-16px_rgba(45,212,191,0.28)]'
+      : 'text-slate-500 hover:bg-white/[0.04] hover:text-slate-200',
   ].join(' ');
 }
 
 export default function Layout() {
   return (
-    <div className="app-shell flex min-h-screen text-slate-100">
-      <aside className="flex w-[260px] shrink-0 flex-col border-r border-white/[0.06] bg-[#0a0a10]">
-        <div className="border-b border-white/[0.06] px-5 py-5">
+    <div className="app-shell relative flex min-h-screen text-slate-100">
+      <aside className="relative z-[1] flex w-[272px] shrink-0 flex-col border-r border-white/[0.07] bg-[#08090e]/90 shadow-[1px_0_0_0_rgba(255,255,255,0.04)_inset] backdrop-blur-xl">
+        <div className="border-b border-white/[0.06] px-5 py-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-violet-600 shadow-lg shadow-cyan-500/20">
-              <QrCode className="h-5 w-5 text-white" aria-hidden />
+            <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-400 via-cyan-500 to-violet-500 shadow-lg shadow-teal-500/25 ring-1 ring-white/20">
+              <QrCode className="h-5 w-5 text-white drop-shadow-sm" aria-hidden />
             </div>
             <div className="min-w-0">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Beach & restoran
+              <div className="font-display text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">
+                Hospitality
               </div>
-              <div className="truncate text-base font-bold tracking-tight text-white">
-                QR <span className="text-cyan-400">Sipariş AI</span>
+              <div className="font-display truncate text-[15px] font-bold tracking-tight text-white">
+                QR <span className="text-gradient-brand">Concierge</span>
               </div>
             </div>
           </div>
-          <p className="mt-3 text-[11px] leading-relaxed text-slate-500">
-            Çoklu sekme: müşteri + mutfak + patron aynı siparişi görür (BroadcastChannel / isteğe
-            bağlı WebSocket).
+          <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
+            Operasyon paneli — müşteri QR ekranı ile aynı sipariş akışını paylaşır. Çoklu sekme veya
+            WebSocket ile senkron.
           </p>
+          <div className="mt-4 flex items-center gap-2">
+            <span className="inline-flex items-center rounded-full border border-teal-500/25 bg-teal-500/10 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wide text-teal-200/90">
+              v0 demo
+            </span>
+            <span className="text-[10px] text-slate-600">Enterprise-ready UI</span>
+          </div>
         </div>
-        <nav className="flex-1 overflow-y-auto px-2 py-4">
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
           {groups.map((g) => (
-            <div key={g.title} className="mb-6">
-              <div className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
+            <div key={g.title} className="mb-7">
+              <div className="mb-2 px-3 font-display text-[10px] font-bold uppercase tracking-[0.18em] text-slate-600">
                 {g.title}
               </div>
-              <ul className="space-y-0.5">
+              <ul className="space-y-1">
                 {g.items.map((item) => (
                   <li key={item.to}>
                     <NavLink to={item.to} end={item.end} className={navClass}>
-                      <item.icon className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
-                      {item.label}
+                      {({ isActive }) => (
+                        <>
+                          <item.icon
+                            className={[
+                              'h-4 w-4 shrink-0 transition-colors',
+                              isActive ? 'text-teal-300' : 'text-slate-600',
+                            ].join(' ')}
+                            aria-hidden
+                          />
+                          {item.label}
+                        </>
+                      )}
                     </NavLink>
                   </li>
                 ))}
@@ -90,9 +106,9 @@ export default function Layout() {
           ))}
         </nav>
       </aside>
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="relative z-[1] flex min-w-0 flex-1 flex-col">
         <AppHeader />
-        <main className="flex-1 overflow-auto p-4 md:p-6">
+        <main className="flex-1 overflow-auto p-5 md:p-8">
           <Outlet />
         </main>
       </div>
