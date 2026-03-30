@@ -1,0 +1,38 @@
+# GitHub Pages: Settings → Pages → Source: "Deploy from a branch" → branch: gh-pages, folder: / (root)
+
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-gh-demo-qr
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Build
+        env:
+          GITHUB_PAGES: 'true'
+        run: npm run build
+      - name: SPA fallback (GitHub Pages)
+        run: cp dist/index.html dist/404.html
+      - name: Deploy to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          clean: true
